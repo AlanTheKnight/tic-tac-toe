@@ -106,16 +106,21 @@ if (currentMove === "bot") {
 }
 
 
+let availableToMove = true;
 let buttons = Array.from(document.querySelectorAll("#field td"));
 for (let i = 0; i < buttons.length; i++) {
     buttons[i].addEventListener("click", function(e) {
         let move = buttons.indexOf(e.target);
-        if (game[move] === 0) {
+        if (game[move] === 0 && availableToMove) {
             e.target.innerHTML = humanVal;
             game[move] = -1;
+            availableToMove = false;
             checkForWin();
-            botMakeMove();
-            checkForWin();
+            setTimeout(function() {
+                botMakeMove();
+                checkForWin();
+                availableToMove = true;
+            }, 1000);
         }
     })
 }
